@@ -9,7 +9,6 @@ void main()
 class BMICalculator extends StatefulWidget
 {
   const BMICalculator({super.key});
-
   @override
   State<BMICalculator> createState() => _BMICalculatorState();
 }
@@ -32,196 +31,215 @@ class _BMICalculatorState extends State<BMICalculator> {
       theme: ThemeData.dark(),
        home: Scaffold
          (
-           appBar: AppBar
-             (
-             title: const Text('BMI Calculator', style: TextStyle(fontSize: 30),),
-             ),
+           appBar: AppBar(title: const Text('BMI Calculator', style: TextStyle(fontSize: 30),),),
            body: Column
              (
                children:
                 [
-                  Expanded(
-                    child: Row
+                  genderRow(),
+                  heightRow(),
+                  ageAndWeightRow(),
+                  calculateButton(context),
+                ],
+             )
+         )
+    );
+  }
+
+  Expanded genderRow()
+  {
+    return Expanded
+      (
+        child: Row
+          (
+            children:
+              [
+                Expanded
+                  (
+                    child: GestureDetector
                       (
-                        children:
-                         [
-                          Expanded
+                        child: Container
+                          (
+                            color: selectGender = gender=='male' ? inactiveColor : activeColor,
+                            child: const Column
+                              (
+                                children:
+                                  [
+                                    Expanded(child: Icon(FontAwesomeIcons.landmark,size: 80,),),
+                                    Text("Male",style: TextStyle(fontSize: 20),),
+                                    SizedBox(height: 30,)
+                                  ],
+                              ),
+                          ),
+                          onTap: ()
+                            {
+                              setState(() {gender = 'male';});
+                            },
+                      ),
+                  ),
+                Expanded
+                  (
+                    child: GestureDetector
+                      (
+                        child: Container
+                          (
+                            color: selectGender = gender=='female' ? inactiveColor : activeColor,
+                            child: const Column
+                              (
+                                children:
+                                  [
+                                    Expanded(child: Icon(FontAwesomeIcons.book,size: 80,),),
+                                    Text("Female",style: TextStyle(fontSize: 18),),
+                                    SizedBox(height: 30,)
+                                  ],
+                              ),
+                          ),
+                        onTap: ()
+                          {
+                            setState(() {gender = 'female';});
+                          },
+                      ),
+                  ),
+              ],
+          ),
+      );
+  }
+
+  Expanded heightRow()
+  {
+    return Expanded
+      (
+        child: Container
+          (
+            color: Colors.black12,
+            height: 200,
+            child: Column
+                    (
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:
+                        [
+                          Center(child: Text("Height: ${_value.round()} cm", style: const TextStyle(fontSize: 30),)),
+                          Center
                             (
-                              child: GestureDetector(
-                                child: Container
+                              child: Slider
+                                (
+                                  min: 100.0,
+                                  max: 200.0,
+                                  value: _value,
+                                  onChanged: (value){setState(() {_value=value;});}
+                               ),
+                            ),
+                        ],
+                    )
+          ),
+      );
+  }
+
+  Expanded ageAndWeightRow()
+  {
+    return Expanded
+      (
+        child: Row
+                (
+                  children:
+                    [
+                      Expanded
+                        (
+                          child: Container
                                   (
-                                    color: selectGender = gender=='male' ? inactiveColor : activeColor,
-                                    child: const Column
+                                    color: Colors.black12,
+                                    child: Column
                                       (
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children:
                                         [
-                                          Expanded(child: Icon(FontAwesomeIcons.landmark,size: 80,),),
-                                          Text("Male",style: TextStyle(fontSize: 20),),
-                                          SizedBox(height: 30,)
+                                          const Text("Age",style: TextStyle(fontSize: 30),),
+                                          const SizedBox(height: 20,),
+                                          Text("$age", style: const TextStyle(fontSize: 30),),
+                                          const SizedBox(height: 20,),
+                                          Row
+                                            (
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children:
+                                                [
+                                                  OutlinedButton(onPressed: (){setState(() {age=age+1;});}, child: const Text("+1",style: TextStyle(fontSize: 40),)),
+                                                  const SizedBox(width: 20,),
+                                                  OutlinedButton(onPressed: (){setState(() {age=age-1;});}, child: const Text("-1",style: TextStyle(fontSize: 40),)),
+                                                ],
+                                          )
                                         ],
                                       ),
                                   ),
-                                onTap: ()
-                                {
-                                  setState(() {
-                                    gender = 'male';
-                                  });
-                                },
-                              ),
-                            ),
-                          Expanded(
-                            child: GestureDetector(
-                              child: Container
-                                (
-                                  color: selectGender = gender=='female' ? inactiveColor : activeColor,
-                                  child: const Column
-                                    (
-                                    children:
-                                    [
-                                      Expanded(child: Icon(FontAwesomeIcons.book,size: 80,),),
-                                      Text("Female",style: TextStyle(fontSize: 18),),
-                                      SizedBox(height: 30,)
-                                    ],
-                                  ),
-                                ),
-                              onTap: ()
-                              {
-                                setState(() {
-                                  gender = 'female';
-                                });
-                              },
-                            ),
-                          ),
-                         ],
-                      ),
-                  ),
-
-                  Expanded(
-                    child: Container
-                      (
-                        color: Colors.black12,
-                        height: 200,
-                        child: Column
-                          (
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children:
-                            [
-                              Center(child: Text("Height: ${_value.round()} cm", style: const TextStyle(fontSize: 30),)),
-                              Center(
-                                      child: Slider
-                                            (
-                                              min: 100.0,
-                                              max: 200.0,
-                                              value: _value,
-                                              onChanged: (value){setState(() {
-                                                _value=value;
-                                              });}
-                                            ),
-                                    ),
-                            ],
-                          )
-                      ),
-                  ),
-
-                  Expanded(
-                    child: Row
-                      (
-                        children:
-                        [
-                          Expanded(
-                            child: Container
-                              (
-                                color: Colors.black12,
-                                child: Column
-                                (
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                    [
-                                      const Text("Age",style: TextStyle(fontSize: 30),),
-                                      const SizedBox(height: 20,),
-                                      Text("$age", style: const TextStyle(fontSize: 30),),
-                                      const SizedBox(height: 20,),
-                                      Row
-                                        (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children:
-                                          [
-                                            OutlinedButton(onPressed: (){setState(() {age=age+1;});}, child: const Text("+1",style: TextStyle(fontSize: 40),)),
-                                            const SizedBox(width: 20,),
-                                            OutlinedButton(onPressed: (){setState(() {age=age-1;});}, child: const Text("-1",style: TextStyle(fontSize: 40),)),
-                                          ],
-                                        )
-                                    ],
-                                ),
-                              ),
-                          ),
-                          Expanded(
-                            child: Container
-                              (
+                        ),
+                      Expanded
+                        (
+                          child: Container
+                            (
                               color: Colors.black12,
                               child: Column
-                              (
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:
-                                [
-                                  const Text("Weight",style: TextStyle(fontSize: 30),),
-                                  const SizedBox(height: 20,),
-                                  Text("${weight.round()} kg", style: const TextStyle(fontSize: 30),),
-                                  const SizedBox(height: 20,),
-                                  Row
-                                  (
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                    [
-                                      OutlinedButton(onPressed: (){setState(() {weight=weight+1;});}, child: const Text("+1",style: TextStyle(fontSize: 40),)),
-                                      const SizedBox(width: 20,),
-                                      OutlinedButton(onPressed: (){setState(() {weight=weight-1;});}, child: const Text("-1",style: TextStyle(fontSize: 40),)),
-                                    ],
-                                  )
-                                ]
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                  ),
-                  Expanded(
-                    child: Container
-                      (
-                        color: Colors.black12,
-                        child: Row
-                          (
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children:
-                              [
-                                ElevatedButton
-                                (
-                                    onPressed:()
-                                    {
-                                      showDialog
-                                        (
-                                          context: context,
-                                          builder: (BuildContext context)
-                                            {
-                                              return AlertDialog
+                                      (
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:
+                                          [
+                                            const Text("Weight",style: TextStyle(fontSize: 30),),
+                                            const SizedBox(height: 20,),
+                                            Text("${weight.round()} kg", style: const TextStyle(fontSize: 30),),
+                                            const SizedBox(height: 20,),
+                                            Row
                                               (
-                                                content: Text("Height=${(_value.round())}cm   Weight=${weight.round()}kg \n\n BMI=${(theBMI=weight/(((_value).round()/100)*((_value).round()/100))).toStringAsFixed(1)}",style: const TextStyle(fontSize: 25),textAlign:TextAlign.center,),
-                                                actions: [Center(child: TextButton(onPressed: (){Navigator.of(context).pop();}, child: const Text("OK",style: TextStyle(fontSize: 20),)))]
-                                              );
-                                            }
-                                        );
-                                    },
-                                    child: const Text("Calculate",style: TextStyle(fontSize: 40),)
-                                )
-                              ],
-                          )
-                      ),
-                  ),
-                ],
-           )
-       )
-    );
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children:
+                                                  [
+                                                   OutlinedButton(onPressed: (){setState(() {weight=weight+1;});}, child: const Text("+1",style: TextStyle(fontSize: 40),)),
+                                                   const SizedBox(width: 20,),
+                                                    OutlinedButton(onPressed: (){setState(() {weight=weight-1;});}, child: const Text("-1",style: TextStyle(fontSize: 40),)),
+                                                 ],
+                                              )
+                                          ]
+                                      ),
+                            ),
+                        ),
+                    ],
+                ),
+      );
   }
+
+  Expanded calculateButton(BuildContext context)
+  {
+      return Expanded
+        (
+          child: Container
+            (
+              color: Colors.black12,
+              child: Row
+                (
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:
+                    [
+                       ElevatedButton
+                        (
+                          onPressed:()
+                            {
+                              showDialog
+                                (
+                                  context: context,
+                                  builder: (BuildContext context)
+                                    {
+                                      return AlertDialog
+                                        (
+                                          content: Text("Height=${(_value.round())}cm   Weight=${weight.round()}kg \n\n BMI=${(theBMI=weight/(((_value).round()/100)*((_value).round()/100))).toStringAsFixed(1)}",style: const TextStyle(fontSize: 25),textAlign:TextAlign.center,),
+                                          actions: [Center(child: TextButton(onPressed: (){Navigator.of(context).pop();}, child: const Text("OK",style: TextStyle(fontSize: 20),)))]
+                                        );
+                                    }
+                                );
+                           },
+                          child: const Text("Calculate",style: TextStyle(fontSize: 40),)
+                        )
+                    ],
+              )
+            ),
+        );
+    }
 }
 
 
