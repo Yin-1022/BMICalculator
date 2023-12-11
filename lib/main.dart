@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:d_1122/Toolist/gender_select.dart';
 
 void main()
 {
@@ -14,10 +14,6 @@ class BMICalculator extends StatefulWidget
 }
 
 class _BMICalculatorState extends State<BMICalculator> {
-  Color inactiveColor = const Color(0xFF0A0E21);
-  Color activeColor = const Color(0xFF1D1E33);
-  Color selectGender = Colors.white;
-  String gender = '';
   double _value = 160;
   int age = 20;
   double weight = 50;
@@ -36,7 +32,7 @@ class _BMICalculatorState extends State<BMICalculator> {
              (
                children:
                 [
-                  genderRow(),
+                  const GenderSelect(),
                   heightRow(),
                   ageAndWeightRow(),
                   calculateButton(context),
@@ -46,64 +42,7 @@ class _BMICalculatorState extends State<BMICalculator> {
     );
   }
 
-  Expanded genderRow()
-  {
-    return Expanded
-      (
-        child: Row
-          (
-            children:
-              [
-                Expanded
-                  (
-                    child: GestureDetector
-                      (
-                        child: Container
-                          (
-                            color: selectGender = gender=='male' ? inactiveColor : activeColor,
-                            child: const Column
-                              (
-                                children:
-                                  [
-                                    Expanded(child: Icon(FontAwesomeIcons.landmark,size: 80,),),
-                                    Text("Male",style: TextStyle(fontSize: 20),),
-                                    SizedBox(height: 30,)
-                                  ],
-                              ),
-                          ),
-                          onTap: ()
-                            {
-                              setState(() {gender = 'male';});
-                            },
-                      ),
-                  ),
-                Expanded
-                  (
-                    child: GestureDetector
-                      (
-                        child: Container
-                          (
-                            color: selectGender = gender=='female' ? inactiveColor : activeColor,
-                            child: const Column
-                              (
-                                children:
-                                  [
-                                    Expanded(child: Icon(FontAwesomeIcons.book,size: 80,),),
-                                    Text("Female",style: TextStyle(fontSize: 18),),
-                                    SizedBox(height: 30,)
-                                  ],
-                              ),
-                          ),
-                        onTap: ()
-                          {
-                            setState(() {gender = 'female';});
-                          },
-                      ),
-                  ),
-              ],
-          ),
-      );
-  }
+
 
   Expanded heightRow()
   {
